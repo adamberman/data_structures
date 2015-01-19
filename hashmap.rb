@@ -30,6 +30,13 @@ class HashMap
 	end
 
 	def remove(key)
+		bucket = self.bucket_for(key)
+		bucket.each do |item|
+			if item[0] == key
+				bucket.delete(item)
+				break
+			end
+		end
 	end
 
 	protected
