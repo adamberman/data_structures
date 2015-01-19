@@ -24,7 +24,11 @@ class HashMap
 	end
 
 	def set(key, value)
-		self.remove(key) if self.include?(key)
+		if self.include?(key)
+			self.remove(key)
+		else
+			self.count += 1
+		end
 		bucket = self.bucket_for(key)
 		bucket.push([key, value])
 	end
@@ -45,6 +49,7 @@ class HashMap
 	attr_accessor :store
 
 	def bucket_for(key)
+		self.store[self.hash(key) % self.store.length]
 	end
 
 	def resize
