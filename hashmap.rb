@@ -25,21 +25,17 @@ class HashMap
 
 	def set(key, value)
 		self.resize if self.count >= self.store.length
-
-		if self.include?(key)
-			self.remove(key)
-		else
-			self.count += 1
-		end
-		bucket = self.bucket_for(key)
-		bucket.push([key, value])
+		self.remove(key) if self.include?(key)
+		self.bucket_for(key) << [key, value]
+		self.count += 1
 	end
 
 	def remove(key)
-		bucket = self.bucket_for(key)
-		bucket.each do |item|
+		return unless self.include?(key)
+		self.bucket_for(key).each do |item|
 			if item[0] == key
 				bucket.delete(item)
+				count -= 1
 				break
 			end
 		end
