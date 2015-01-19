@@ -24,6 +24,8 @@ class HashMap
 	end
 
 	def set(key, value)
+		self.resize if self.count >= self.store.length
+
 		if self.include?(key)
 			self.remove(key)
 		else
@@ -48,11 +50,20 @@ class HashMap
 	attr_writer :count
 	attr_accessor :store
 
-	def bucket_for(key)
-		self.store[self.hash(key) % self.store.length]
+	def bucket_for(key, array = self.store)
+		array[self.hash(key) % array.length]
 	end
 
 	def resize
+		length = self.store.length * 2
+		new_array = Array.new(length) { [] }
+		self.store.each do |bucket|
+			bucket.each do |item|
+				bucket_for(item[0], new_array) << item
+			end
+		end
+
+		self.store = new_array
 	end
 
 	# would be more advanced, but for the purposes of this, 
