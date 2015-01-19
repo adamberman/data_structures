@@ -19,17 +19,23 @@ class HashMap
 				return item[1] if key == item[0]
 			end
 		end
-		
+
 		nil
 	end
 
-	def insert(key, value)
+	def set(key, value)
+		self.remove(key) if self.include?(key)
+		bucket = self.bucket_for(key)
+		bucket.push([key, value])
 	end
 
 	def remove(key)
 	end
 
 	protected
+
+	attr_writer :count
+	attr_accessor :store
 
 	def bucket_for(key)
 	end
@@ -45,7 +51,4 @@ class HashMap
 		key.to_s.each_byte { |el| ascii_keys << el }
 		ascii_keys.map { |el| el.to_s }.join('')
 	end
-
-	attr_writer :count
-	attr_accessor :store
 end
