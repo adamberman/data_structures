@@ -12,7 +12,7 @@ class HashMap
 		bucket.include?(key)
 	end
 
-	def get(key)
+	def [](key)
 		if self.include?(key)
 			bucket = self.bucket_for(key)
 			bucket.each do |item|
@@ -23,7 +23,7 @@ class HashMap
 		nil
 	end
 
-	def set(key, value)
+	def []=(key, value)
 		self.resize if self.count >= self.store.length
 		self.remove(key) if self.include?(key)
 		self.bucket_for(key) << [key, value]
