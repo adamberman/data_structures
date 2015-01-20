@@ -25,9 +25,14 @@ class Link
 	end
 
 	def is_detached?
+		!(self.prev || self.next)
 	end
 
 	def remove
+		self.prev.next = self.next
+		self.next.prev = self.prev
+		self.prev = nil
+		self.next = nil
 	end
 
 	protected
